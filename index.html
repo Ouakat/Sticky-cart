@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sigle page Product </title>
+    <link href="style.css?ver=1.4" rel="stylesheet" id="style">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+</head>
+
+<body>
+
+    <div id="app">
+        <div class="container">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </button>
+                        <a class="navbar-brand" href="#">Project name</a>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="#">Home</a></li>
+                            <li><a href="#">About</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Action</a></li>
+                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="#">Something else here</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li class="dropdown-header">Nav header</li>
+                                    <li><a href="#">Separated link</a></li>
+                                    <li><a href="#">One more separated link</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>
+                            <li><a href="../navbar-static-top/">Static top</a></li>
+                            <li><a href="../navbar-fixed-top/">Fixed top</a></li>
+                        </ul>
+                    </div>
+                    <!--/.nav-collapse -->
+                </div>
+                <!--/.container-fluid -->
+            </nav>
+        </div>
+        <div class="container-fluid">
+            <div class="content-wrapper">
+                <div class="item-container">
+                    <div class="container">
+
+                        <div class="card">
+                            <div class="container-fliud">
+                                <div class="wrapper row">
+                                    <div class="preview col-md-6">
+
+                                        <div class="preview-pic tab-content">
+                                            <div v-for="(img, index) in items[0].images" class="tab-pane" :class="index==0?'active':''" :id="'pic-'.index"><img :src="index==0?items[0].src_initial:img.src" /></div>
+                                        </div>
+                                        <ul class="preview-thumbnail nav nav-tabs">
+                                            <li v-for="(img, index) in items[0].images" :class="index==0?'active':''">
+                                                <a :data-target="'#pic-' + index" data-toggle="tab"><img :src="img.src" /></a>
+                                            </li>
+                                        </ul>
+
+                                    </div>
+                                    <div class="details col-md-6">
+                                        <h3 class="product-title">{{items[0].name}}</h3>
+                                        <div class="rating">
+                                            <div class="stars">
+                                                <span class="fa fa-star checked"></span>
+                                                <span class="fa fa-star checked"></span>
+                                                <span class="fa fa-star checked"></span>
+                                                <span class="fa fa-star"></span>
+                                                <span class="fa fa-star"></span>
+                                            </div>
+                                            <span class="review-no">41 reviews</span>
+                                        </div>
+                                        <p class="product-description">Suspendisse quos? Tempus cras iure temporibus? Eu laudantium cubilia sem sem! Repudiandae et! Massa senectus enim minim sociosqu delectus posuere.</p>
+
+                                        <div class="colors">colors:
+                                            <span v-for="(c,index) in items[0].colors" :key="index" class="color" :class="c.name" @click="UpdatePrice(index)"></span>
+                                        </div>
+
+                                        <div class="quantity-toggle">
+                                            <button @click="decrement()">&mdash;</button>
+                                            <input type="text" :value="items[0].quantity" readonly>
+                                            <button @click="increment()">&#xff0b;</button>
+                                        </div>
+
+                                        <div class="price">
+                                            <span class="real">${{items[0].price}}</span><span class="promo">${{items[0].price-20}}</span>
+                                        </div>
+
+                                        <div class="action">
+                                            <button class="add-to-cart btn btn-success btn-bg" @click="addToCart()" type="button" style="width: 100%;">Add to Cart</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="col-md-12 product-info">
+                        <ul id="myTab" class="nav nav-tabs nav_tabs">
+
+                            <li class="active"><a href="#service-one" data-toggle="tab">DESCRIPTION</a></li>
+                            <li><a href="#service-two" data-toggle="tab">PRODUCT INFO</a></li>
+                            <li><a href="#service-three" data-toggle="tab">REVIEWS</a></li>
+
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                            <div class="tab-pane fade in active" id="service-one">
+
+                                <section class="container product-info">
+                                    The Corsair Gaming Series GS600 power supply is the ideal price-performance solution for building or upgrading a Gaming PC. A single +12V rail provides up to 48A of reliable, continuous power for multi-core gaming PCs with multiple graphics cards. The
+                                    ultra-quiet, dual ball-bearing fan automatically adjusts its speed according to temperature, so it will never intrude on your music and games. Blue LEDs bathe the transparent fan blades in a cool glow. Not feeling blue?
+                                    You can turn off the lighting with the press of a button.
+
+                                    <h3>Corsair Gaming Series GS600 Features:</h3>
+                                    <li>It supports the latest ATX12V v2.3 standard and is backward compatible with ATX12V 2.2 and ATX12V 2.01 systems</li>
+                                    <li>An ultra-quiet 140mm double ball-bearing fan delivers great airflow at an very low noise level by varying fan speed in response to temperature</li>
+                                    <li>80Plus certified to deliver 80% efficiency or higher at normal load conditions (20% to 100% load)</li>
+                                    <li>0.99 Active Power Factor Correction provides clean and reliable power</li>
+                                    <li>Universal AC input from 90~264V — no more hassle of flipping that tiny red switch to select the voltage input!</li>
+                                    <li>Extra long fully-sleeved cables support full tower chassis</li>
+                                    <li>A three year warranty and lifetime access to Corsair’s legendary technical support and customer service</li>
+                                    <li>Over Current/Voltage/Power Protection, Under Voltage Protection and Short Circuit Protection provide complete component safety</li>
+                                    <li>Dimensions: 150mm(W) x 86mm(H) x 160mm(L)</li>
+                                    <li>MTBF: 100,000 hours</li>
+                                    <li>Safety Approvals: UL, CUL, CE, CB, FCC Class B, TÜV, CCC, C-tick</li>
+                                </section>
+
+                            </div>
+                            <div class="tab-pane fade" id="service-two">
+
+                                <section class="container">
+
+                                </section>
+
+                            </div>
+                            <div class="tab-pane fade" id="service-three">
+
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Cart-->
+        <div class="mini-cart-content" :class="items[0].ShowCart?'cart-visible':''">
+            <ul>
+                <li class="single-shopping-cart">
+                    <div class="shopping-cart-img">
+                        <a href="#"><img src=""></a><span class="product-quantity">1x</span></div>
+                    <div class="shopping-cart-title">
+                        <h4><a href="#">Mens heavyweight 6.1-Ounce Cotton shirt</a></h4><span>400$</span>
+
+                    </div>
+                </li>
+                <li class="single-shopping-cart">
+                    <div class="shopping-cart-img">
+                        <a href="#"><img src=""></a><span class="product-quantity">1x</span></div>
+                    <div class="shopping-cart-title">
+                        <h4><a href="#">Mens heavyweight 6.1-Ounce Cotton shirt </a></h4><span>430$</span>
+
+                    </div>
+                </li>
+            </ul>
+
+            <div class="shopping-cart-btn text-center">
+                <a class="default-btn" href="https://marketplace.coopmaroc.com/panier">Continuer to Checkout</a>
+            </div>
+        </div>
+        <!--end cart-->
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                items: [{
+                    name: "Mens heavyweight 6.1-Ounce Cotton shirt",
+                    price: 60,
+                    prix_initial: 60,
+                    quantity: 1,
+                    ShowCart: false,
+                    src_initial: "https://i.pinimg.com/originals/bd/ef/cb/bdefcbc72735f64db17f3250b1e64245.png",
+                    images: [{
+                        src: "https://i.pinimg.com/originals/bd/ef/cb/bdefcbc72735f64db17f3250b1e64245.png"
+                    }, {
+                        src: "https://i.pinimg.com/236x/ae/50/d2/ae50d28471fb89ca5a064b08eca09e66.jpg"
+                    }, {
+                        src: "https://i.pinimg.com/236x/98/41/f1/9841f17e6ff52c0d661fc02aa9eedd78--t-shirt-png-transparent.jpg"
+                    }],
+                    colors: [{
+                        name: "orange",
+                        price: 20
+                    }, {
+                        name: "nor",
+                        price: 25
+                    }, {
+                        name: "yelloow",
+                        price: 30
+                    }]
+                }],
+            },
+            methods: {
+                UpdatePrice: function(i) {
+                    //console.log(i);
+                    this.items[0].price = this.items[0].colors[i].price * this.items[0].quantity;
+                    this.items[0].src_initial = this.items[0].images[i].src;
+                },
+                increment() {
+                    this.items[0].quantity++;
+                    this.items[0].price = this.items[0].prix_initial * this.items[0].quantity;
+                },
+                decrement() {
+                    if (this.items[0].quantity === 1) {
+                        alert('Negative quantity not allowed');
+                    } else {
+                        this.items[0].quantity--;
+                        this.items[0].price = this.items[0].prix_initial * this.items[0].quantity;
+                    }
+                },
+                addToCart: function() {
+                    console.log(this.items[0].name);
+                    this.items[0].ShowCart = !this.items[0].ShowCart;
+
+                },
+            }
+        });
+    </script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="custum.js"></script>
+
+    <!------ Include the above in your HEAD tag ---------->
+</body>
+
+</html>
