@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sigle page Product </title>
-    <link href="style.css?ver=1.4" rel="stylesheet" id="style">
+    <link href="style.css?ver=2.1" rel="stylesheet" id="style">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
@@ -68,17 +68,17 @@
                                     <div class="preview col-md-6">
 
                                         <div class="preview-pic tab-content">
-                                            <div v-for="(img, index) in items[0].images" class="tab-pane" :class="index==0?'active':''" :id="'pic-'.index"><img :src="index==0?items[0].src_initial:img.src" /></div>
+                                            <div v-for="(img, index) in product.images" class="tab-pane" :class="index==0?'active':''" :id="'pic-'.index"><img :src="index==0?product.src_initial:img.src" /></div>
                                         </div>
                                         <ul class="preview-thumbnail nav nav-tabs">
-                                            <li v-for="(img, index) in items[0].images" :class="index==0?'active':''">
+                                            <li v-for="(img, index) in product.images" :class="index==0?'active':''">
                                                 <a :data-target="'#pic-' + index" data-toggle="tab"><img :src="img.src" /></a>
                                             </li>
                                         </ul>
 
                                     </div>
                                     <div class="details col-md-6">
-                                        <h3 class="product-title">{{items[0].name}}</h3>
+                                        <h3 class="product-title">{{product.name}}</h3>
                                         <div class="rating">
                                             <div class="stars">
                                                 <span class="fa fa-star checked"></span>
@@ -92,21 +92,22 @@
                                         <p class="product-description">Suspendisse quos? Tempus cras iure temporibus? Eu laudantium cubilia sem sem! Repudiandae et! Massa senectus enim minim sociosqu delectus posuere.</p>
 
                                         <div class="colors">colors:
-                                            <span v-for="(c,index) in items[0].colors" :key="index" class="color" :class="c.name" @click="UpdatePrice(index)"></span>
+                                            <span v-for="(c,index) in product.colors" :key="index" class="color" :class="c.name" @click="UpdatePrice(index)"></span>
+                                            <input type="hidden" v-model="product.index_initial">
                                         </div>
 
                                         <div class="quantity-toggle">
                                             <button @click="decrement()">&mdash;</button>
-                                            <input type="text" :value="items[0].quantity" readonly>
+                                            <input type="text" v-model="product.quantity">
                                             <button @click="increment()">&#xff0b;</button>
                                         </div>
 
                                         <div class="price">
-                                            <span class="real">${{items[0].price}}</span><span class="promo">${{items[0].price-20}}</span>
+                                            <span class="real">${{product.price-20}}</span><span class="promo">${{product.price}}</span>
                                         </div>
 
                                         <div class="action">
-                                            <button class="add-to-cart btn btn-success btn-bg" @click="addToCart()" type="button" style="width: 100%;">Add to Cart</button>
+                                            <button class="add-to-cart btn btn-success btn-bg" @click="addToCart(product)" type="button" style="width: 100%;">Add to Cart</button>
 
                                         </div>
                                     </div>
@@ -164,28 +165,38 @@
             </div>
         </div>
         <!-- Cart-->
-        <div class="mini-cart-content" :class="items[0].ShowCart?'cart-visible':''">
-            <ul>
-                <li class="single-shopping-cart">
+        <div class="mini-cart-content" :class="product.ShowCart?'cart-visible':''">
+            <div class="card-header text-center">
+                <h3>Cart</h3>
+                <span @click="closeCart()" class="close">X</span>
+            </div>
+            <ul class="cart-body">
+                <li class="single-shopping-cart" v-for="(item, index) in cartItems">
                     <div class="shopping-cart-img">
-                        <a href="#"><img src=""></a><span class="product-quantity">1x</span></div>
-                    <div class="shopping-cart-title">
-                        <h4><a href="#">Mens heavyweight 6.1-Ounce Cotton shirt</a></h4><span>400$</span>
-
+                        <a href="#"><img :src="item.images[item.index_initial].src"></a>
                     </div>
-                </li>
-                <li class="single-shopping-cart">
-                    <div class="shopping-cart-img">
-                        <a href="#"><img src=""></a><span class="product-quantity">1x</span></div>
                     <div class="shopping-cart-title">
-                        <h4><a href="#">Mens heavyweight 6.1-Ounce Cotton shirt </a></h4><span>430$</span>
+                        <h4><a href="#">{{item.name}}</a></h4>
+                        <div class="quantity-toggle">
+                            <button @click="decrement_cart(index)">&mdash;</button>
+                            <input type="text" v-model="item.quantity">
+                            <button @click="increment_cart(index)">&#xff0b;</button>
+                            <div class="price-cart">
+                                <span class="real">${{item.price}}</span><span class="promo">${{item.price}}</span>
+                            </div>
+                        </div>
 
                     </div>
                 </li>
             </ul>
-
-            <div class="shopping-cart-btn text-center">
-                <a class="default-btn" href="https://marketplace.coopmaroc.com/panier">Continuer to Checkout</a>
+            <div class="cart-footer">
+                <div class="shopping-cart-total">
+                    <h4 class="shop-total">Total : <span class="totale">${{Total}} </span>
+                    </h4>
+                </div>
+                <div class="shopping-cart-btn text-center">
+                    <a class="default-btn btn btn-success" href="https://marketplace.coopmaroc.com/panier">Continuer to Checkout</a>
+                </div>
             </div>
         </div>
         <!--end cart-->
@@ -194,10 +205,11 @@
         new Vue({
             el: "#app",
             data: {
-                items: [{
+                product: {
                     name: "Mens heavyweight 6.1-Ounce Cotton shirt",
-                    price: 60,
-                    prix_initial: 60,
+                    price: 35,
+                    prix_initial: 35,
+                    index_initial: 0,
                     quantity: 1,
                     ShowCart: false,
                     src_initial: "https://i.pinimg.com/originals/bd/ef/cb/bdefcbc72735f64db17f3250b1e64245.png",
@@ -210,37 +222,80 @@
                     }],
                     colors: [{
                         name: "orange",
-                        price: 20
+                        price: 35,
+                        index: 0
                     }, {
                         name: "nor",
-                        price: 25
+                        price: 40,
+                        index: 1
                     }, {
                         name: "yelloow",
-                        price: 30
+                        price: 50,
+                        index: 2
                     }]
-                }],
+                },
+                cartItems: []
+            },
+            computed: {
+                Total() {
+                    let total = 0;
+                    this.cartItems.forEach(item => {
+                        total += ((item.price - 20) * item.quantity);
+                    });
+                    return total;
+                }
             },
             methods: {
                 UpdatePrice: function(i) {
                     //console.log(i);
-                    this.items[0].price = this.items[0].colors[i].price * this.items[0].quantity;
-                    this.items[0].src_initial = this.items[0].images[i].src;
+                    this.product.price = this.product.colors[i].price * this.product.quantity;
+                    this.product.src_initial = this.product.images[i].src;
+                    this.product.prix_initial = this.product.colors[i].price;
+                    this.product.index_initial = i;
                 },
                 increment() {
-                    this.items[0].quantity++;
-                    this.items[0].price = this.items[0].prix_initial * this.items[0].quantity;
+                    this.product.quantity++;
+                    this.product.price = this.product.prix_initial * this.product.quantity;
                 },
                 decrement() {
-                    if (this.items[0].quantity === 1) {
+                    if (this.product.quantity === 1) {
                         alert('Negative quantity not allowed');
                     } else {
-                        this.items[0].quantity--;
-                        this.items[0].price = this.items[0].prix_initial * this.items[0].quantity;
+                        this.product.quantity--;
+                        this.product.price = this.product.prix_initial * this.product.quantity;
                     }
                 },
-                addToCart: function() {
-                    console.log(this.items[0].name);
-                    this.items[0].ShowCart = !this.items[0].ShowCart;
+                increment_cart: function(index) {
+                    this.cartItems[index].quantity++;
+                    this.cartItems[index].price = this.cartItems[index].prix_initial * this.cartItems[index].quantity;
+                },
+                decrement_cart: function(index) {
+                    if (this.cartItems[index].quantity === 1) {
+                        alert('Negative quantity not allowed');
+                    } else {
+                        this.cartItems[index].quantity--;
+                        this.cartItems[index].price = this.cartItems[index].prix_initial * this.cartItems[index].quantity;
+                    }
+                },
+                closeCart() {
+                    this.product.ShowCart = false;
+                },
+                addToCart: function(products) {
+                    // console.log(products.colors[this.product.index_initial].name);
+                    // Add the item or increase qty
+
+                    let itemInCart = this.cartItems.filter(item => item.index_initial === products.index_initial);
+                    let isItemInCart = itemInCart.length > 0;
+                    console.log(isItemInCart);
+
+                    if (isItemInCart === false) {
+                        this.cartItems.push(Vue.util.extend({}, products));
+                    } else {
+                        itemInCart[0].quantity += products.quantity;
+                    }
+                    products.quantity = 1;
+                    console.log(this.cartItems);
+                    this.product.ShowCart = true;
 
                 },
             }
@@ -252,5 +307,7 @@
 
     <!------ Include the above in your HEAD tag ---------->
 </body>
+
+</html>
 
 </html>
