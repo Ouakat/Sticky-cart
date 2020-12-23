@@ -414,6 +414,17 @@
     margin: 20px 0;
 }
 
+.select::before {
+    font-family: fontawesome;
+    content: "\f00c";
+    color: #fff;
+}
+
+.select {
+    text-align: center;
+    line-height: 2em;
+}
+
 .shopping-cart-total h4 {
     font-weight: 400;
     color: #253237;

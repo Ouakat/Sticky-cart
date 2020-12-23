@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sigle page Product </title>
-    <link href="style.css?ver=2.1" rel="stylesheet" id="style">
+    <link href="style.css?ver=2.2" rel="stylesheet" id="style">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
@@ -92,7 +92,7 @@
                                         <p class="product-description">Suspendisse quos? Tempus cras iure temporibus? Eu laudantium cubilia sem sem! Repudiandae et! Massa senectus enim minim sociosqu delectus posuere.</p>
 
                                         <div class="colors">colors:
-                                            <span v-for="(c,index) in product.colors" :key="index" class="color" :class="c.name" @click="UpdatePrice(index)"></span>
+                                            <span v-for="(c,index) in product.colors" :key="index" :class="['color',c.name,{select: c.price==product.price}]" @click="UpdatePrice(index)"></span>
                                             <input type="hidden" v-model="product.index_initial">
                                         </div>
 
