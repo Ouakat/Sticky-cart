@@ -182,7 +182,7 @@
                             <input type="text" v-model="item.quantity">
                             <button @click="increment_cart(index)">&#xff0b;</button>
                             <div class="price-cart">
-                                <span class="real">${{item.price}}</span><span class="promo">${{item.price}}</span>
+                                <span class="real">${{item.price-20}}</span><span class="promo">${{item.price}}</span>
                             </div>
                         </div>
 
@@ -240,7 +240,7 @@
                 Total() {
                     let total = 0;
                     this.cartItems.forEach(item => {
-                        total += ((item.price - 20) * item.quantity);
+                        total += (item.prix_initial * item.quantity) - 20;
                     });
                     return total;
                 }
