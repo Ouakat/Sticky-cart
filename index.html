@@ -92,7 +92,7 @@
                                         <p class="product-description">Suspendisse quos? Tempus cras iure temporibus? Eu laudantium cubilia sem sem! Repudiandae et! Massa senectus enim minim sociosqu delectus posuere.</p>
 
                                         <div class="colors">colors:
-                                            <span v-for="(c,index) in product.colors" :key="index" :class="['color',c.name,{select: c.price==product.price}]" @click="UpdatePrice(index)"></span>
+                                            <span v-for="(c,index) in product.colors" :key="index" :class="['color',c.name,{select: index==product.index_initial}]" @click="UpdatePrice(index)"></span>
                                             <input type="hidden" v-model="product.index_initial">
                                         </div>
 
